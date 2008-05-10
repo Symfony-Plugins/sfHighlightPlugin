@@ -1,0 +1,2 @@
+  * Integration with sfSearch, sfLucene
+  * Keyword builders to easily create keywords from a pool of markers
