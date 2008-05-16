@@ -113,7 +113,7 @@ final class xfHighlightReaderDOM implements xfHighlightReader
   /**
    * @see xfHighlightReader
    */
-  public function replaceText(xfHighlightToken $token, $replacement)
+  public function replaceText(xfTokenInterface $token, $replacement)
   {
     $node = $this->texts[$this->position];
     $node->splitText($token->getEnd());

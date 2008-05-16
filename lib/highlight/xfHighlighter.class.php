@@ -55,7 +55,7 @@ final class xfHighlighter
       $this->addKeyword($keyword);
     }
   }
-
+  
   /**
    * Does the highlighting on the reader.
    *

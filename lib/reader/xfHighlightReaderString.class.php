@@ -66,7 +66,7 @@ final class xfHighlightReaderString implements xfHighlightReader
   /**
    * @see xfHighlightReader
    */
-  public function replaceText(xfHighlightToken $token, $new)
+  public function replaceText(xfTokenInterface $token, $new)
   {
     $newText  = substr($this->text, 0, $token->getStart());
     $newText .= $new;

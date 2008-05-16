@@ -7,6 +7,23 @@
  * file that was distributed with this source code.
  */
 
+// create an xfTokenInterface if unavailable from sfSearch
+// this is neccessary to remove the dependency on sfSearch
+if (!interface_exists('xfTokenInterface', true))
+{
+  /**
+   * Token interface to achieve duck typing
+   *
+   * @package sfHighlight
+   * @subpackage Highlight
+   * @author Carl Vondrick
+   * @see sfSearch's xfTokenInterface
+   */
+  interface xfTokenInterface
+  {
+  }
+}
+
 /**
  * The highlight token.
  *
@@ -14,7 +31,7 @@
  * @subpackage Highlight
  * @author Carl Vondrick
  */
-final class xfHighlightToken
+final class xfHighlightToken implements xfTokenInterface
 {
   /**
    * The text
@@ -94,11 +111,11 @@ final class xfHighlightToken
   /**
    * System to sort the tokens
    *
-   * @param xfHighlightToken $a
-   * @param xfHighlightToken $b
+   * @param xfTokenInterface $a
+   * @param xfTokenInterface $b
    * @returns int The sort code for usort
    */
-  static public function getSortCode(xfHighlightToken $a, xfHighlightToken $b)
+  static public function getSortCode(xfTokenInterface $a, xfTokenInterface $b)
   {
     if ($a->getStart() < $b->getStart())
     {

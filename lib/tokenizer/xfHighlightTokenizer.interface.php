@@ -17,10 +17,10 @@
 interface xfHighlightTokenizer
 {
   /**
-   * Tokenizes the text and returns an array of xfHighlightToken-s
+   * Tokenizes the text and returns an array of xfTokenInterface
    *
    * @param string $text The text to tokenize
-   * @returns array of xfHighlightToken
+   * @returns array of xfTokenInterface
    */
   public function tokenize($text);
 }

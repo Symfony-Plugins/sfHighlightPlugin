@@ -31,9 +31,9 @@ interface xfHighlightReader
   /**
    * Replaces a token with the new text in the correct text.
    *
-   * @param xfHighlightToken $token
+   * @param xfTokenInterface $token
    * @param string $new
    */
-  public function replaceText(xfHighlightToken $token, $new);
+  public function replaceText(xfTokenInterface $token, $new);
 }
 
