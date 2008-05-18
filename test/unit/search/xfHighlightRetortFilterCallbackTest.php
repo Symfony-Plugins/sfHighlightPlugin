@@ -22,6 +22,7 @@ require 'highlight/xfHighlightToken.class.php';
 require 'tokenizer/xfHighlightTokenizer.interface.php';
 require 'marker/xfHighlightMarker.interface.php';
 require 'marker/xfHighlightMarkerUppercase.class.php';
+require 'reader/xfHighlightReaderInterface.interface.php';
 require 'reader/xfHighlightReader.interface.php';
 require 'reader/xfHighlightReaderString.class.php';
 

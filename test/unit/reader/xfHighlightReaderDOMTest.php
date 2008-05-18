@@ -8,20 +8,16 @@
  */
 
 require dirname(__FILE__) . '/../../bootstrap/unit.php';
+require 'reader/xfHighlightReaderInterface.interface.php';
 require 'reader/xfHighlightReader.interface.php';
 require 'reader/xfHighlightReaderDOM.class.php';
 require 'highlight/xfHighlightToken.class.php';
 
 $t = new lime_test(9, new lime_output_color);
 
-function getFullText($reader)
+function ignoreCallback(DOMNode $node)
 {
-  do
-  {
-    $text = trim($reader->next());
-  } while ($text === '');
-
-  return $text;
+  return $node->nodeName == 'ignoreme';
 }
 
 $xml = <<<XML
@@ -36,6 +32,7 @@ $xml = <<<XML
     <child>Pie is yummy.</child>
     Pie is bad for you!
   </parent>
+  <ignoreme>foobar</ignoreme>
 </root>
 XML;
 
@@ -43,6 +40,8 @@ $domdoc = new DOMDocument;
 $domdoc->loadXml($xml);
 
 $reader = new xfHighlightReaderDOM($domdoc);
+$reader->registerIgnoreCallback('ignoreCallback');
+$reader->rewind();
 
 $t->ok($reader->getDocument() == $domdoc && $reader->getDocument() !== $domdoc, '->__construct() clones the DOMDocument');
 
@@ -56,14 +55,14 @@ $expected = array(
 
 foreach ($expected as $phrase)
 {
-  $t->is(getFullText($reader), $phrase, '->next() returns node "' . $phrase . '"');
+  $t->is(trim($reader->next()), $phrase, '->next() returns node "' . $phrase . '"');
 }
 
 $reader->next();
 $t->is($reader->next(), null, '->next() returns "null" at the end');
 
 $reader->rewind();
-$t->is(getFullText($reader), 'I love pie', '->rewind() starts the iterator over');
+$t->is($reader->next(), 'I love pie', '->rewind() starts the iterator over');
 
 $reader->replaceText(new xfHighlightToken('love', 2, 6), 'hate');
 
@@ -81,8 +80,10 @@ $expected = <<<XML
     <child>Pie is yummy.</child>
     Pie is bad for you!
   </parent>
+  <ignoreme>foobar</ignoreme>
 </root>
 
 XML;
 
 $t->is($text, $expected, '->replaceText() replaces the text in the correct node');
+

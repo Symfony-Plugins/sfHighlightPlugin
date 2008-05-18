@@ -52,7 +52,7 @@ final class xfHighlightRetortFilterCallback implements xfRetortFilterCallback
       $h = new xfHighlighter;
       $h->addKeyword($keyword);
 
-      $response = $h->highlight(new xfHighlightReaderString($response))->getText();
+      $response = $h->highlight(new xfHighlightReaderString($response))->getString();
     }
 
     return $response;

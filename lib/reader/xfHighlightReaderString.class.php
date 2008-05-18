@@ -80,7 +80,7 @@ final class xfHighlightReaderString implements xfHighlightReader
    *
    * @returns string
    */
-  public function getText()
+  public function getString()
   {
     return $this->text;
   }

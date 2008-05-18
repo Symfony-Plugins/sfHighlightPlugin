@@ -20,7 +20,7 @@ final class xfHighlightReaderDOM implements xfHighlightReader
   /**
    * The document
    *
-   * @var DOMDocument
+   * @var DOMNode
    */
   private $document;
 
@@ -48,6 +48,13 @@ final class xfHighlightReaderDOM implements xfHighlightReader
       );
 
   /**
+   * Callbacks to determine if the node should be ignored
+   *
+   * @var array
+   */
+  private $ignoreCallbacks = array();
+
+  /**
    * The current position in the text array
    *
    * @var int
@@ -55,21 +62,49 @@ final class xfHighlightReaderDOM implements xfHighlightReader
   private $position;
 
   /**
+   * Boolean to indicate if reader has been initialized
+   *
+   * @var bool
+   */
+  private $initialized = false;
+
+  /**
    * Constructor to set the DOMNode
    *
    * @param DOMNode $document
    */
-  public function __construct(DOMDocument $document)
+  public function __construct(DOMNode $document)
   {
     $this->document = clone $document;
+  }
 
-    $this->buildTexts($this->document);
+  /**
+   * Initializes the reader
+   */
+  public function initialize()
+  {
+    if (!$this->initialized)
+    {
+      $this->buildTexts($this->document);
+
+      $this->initialized = true;
+    }
+  }
+
+  /**
+   * Adds an ignore callback
+   *
+   * @param callable $callback
+   */
+  public function registerIgnoreCallback($callback)
+  {
+    $this->ignoreCallbacks[] = $callback;
   }
 
   /**
    * Gets the original document
    *
-   * @returns DOMDocument
+   * @returns DOMNode
    */
   public function getDocument()
   {
@@ -86,6 +121,15 @@ final class xfHighlightReaderDOM implements xfHighlightReader
     if (in_array($node->nodeType, $this->ignore))
     {
       return;
+    }
+
+    // stop building this node if callback returns true
+    foreach ($this->ignoreCallbacks as $callback)
+    {
+      if (call_user_func($callback, $node) === true)
+      {
+        return;
+      }
     }
 
     foreach ($node->childNodes as $child)
@@ -107,6 +151,8 @@ final class xfHighlightReaderDOM implements xfHighlightReader
    */
   public function rewind()
   {
+    $this->initialize();
+
     $this->position = -1;
   }
   
@@ -137,6 +183,13 @@ final class xfHighlightReaderDOM implements xfHighlightReader
       return null;
     }
 
-    return $this->texts[$this->position]->textContent;
+    $response = $this->texts[$this->position]->textContent;
+
+    if (trim($response) == '')
+    {
+      return $this->next();
+    }
+
+    return $response;
   }
 }

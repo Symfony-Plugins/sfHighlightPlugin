@@ -8,6 +8,7 @@
  */
 
 require dirname(__FILE__) . '/../../bootstrap/unit.php';
+require 'reader/xfHighlightReaderInterface.interface.php';
 require 'reader/xfHighlightReader.interface.php';
 require 'reader/xfHighlightReaderString.class.php';
 require 'highlight/xfHighlightToken.class.php';
@@ -25,4 +26,4 @@ $t->is($reader->next(), $string, '->rewind() resets ->next()');
 
 $token = new xfHighlightToken('walrus', 7, 13);
 $reader->replaceText($token, 'lucy');
-$t->is($reader->getText(), 'I am a lucy in the sky with diamonds.', '->replaceText() does the replacement');
+$t->is($reader->getString(), 'I am a lucy in the sky with diamonds.', '->replaceText() does the replacement');

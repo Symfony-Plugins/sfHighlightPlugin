@@ -59,11 +59,13 @@ final class xfHighlighter
   /**
    * Does the highlighting on the reader.
    *
-   * @param xfHighlightReader $reader
-   * @returns xfHighlightReader
+   * @param xfHighlightReaderInterface $inReader
+   * @returns xfHighlightReaderInterface
    */
-  public function highlight(xfHighlightReader $reader)
+  public function highlight(xfHighlightReaderInterface $inReader)
   {
+    $reader = $this->resolveReader($inReader);
+
     $reader->rewind();
 
     while($text = $reader->next())
@@ -82,6 +84,22 @@ final class xfHighlighter
           $reader->replaceText($token, $highlightedText);
         }
       }
+    }
+
+    return $inReader;
+  }
+
+  /**
+   * Resolves the reader and its aggregates
+   *
+   * @param xfHighlightReaderInterface $reader
+   * @returns xfHighlightReader
+   */
+  private function resolveReader(xfHighlightReaderInterface $reader)
+  {
+    if ($reader instanceof xfHighlightReaderAggregate)
+    {
+      $reader = $this->resolveReader($reader->getReader());
     }
 
     return $reader;

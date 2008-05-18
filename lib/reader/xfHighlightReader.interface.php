@@ -14,7 +14,7 @@
  * @subpackage Reader
  * @author Carl Vondrick
  */
-interface xfHighlightReader
+interface xfHighlightReader extends xfHighlightReaderInterface
 {
   /**
    * Advances the pointer.
