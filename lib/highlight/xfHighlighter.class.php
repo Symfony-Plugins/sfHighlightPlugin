@@ -8,7 +8,7 @@
  */
 
 /**
- * Integrates the keywords and readers together to highlight text.
+ * xfHighlighter integrates keywords and readers to highlight a piece of text.
  *
  * @package xfHighlight
  * @subpackage Highlight
