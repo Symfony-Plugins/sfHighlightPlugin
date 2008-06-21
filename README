@@ -7,7 +7,7 @@ Warning: sfHighlight is currently pre-alpha software and may not be suitable for
   * symfony 1.1
 
 = Optional Dependencies =
-  * sfSearch
+  * [wiki:sfSearchPlugin]
 
 = Features =
   * Highlights strings, XML, X/HTML documents
@@ -17,6 +17,8 @@ Warning: sfHighlight is currently pre-alpha software and may not be suitable for
 
 = Installation =
 sfHighlight is currently only available from symfony's subversion repository:
+
+  * Checkout from subversion:
 {{{
 svn co http://svn.symfony-project.com/plugins/sfHighlightPlugin/trunk
 }}}
