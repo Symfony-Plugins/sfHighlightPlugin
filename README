@@ -1,52 +1,47 @@
-= Introduction =
+# Introduction
 sfHighlight is a collection of tools to highlight text and media formats, such as XML.  It is highly extensible to support any format or highlighting scheme.
 
 Warning: sfHighlight is currently pre-alpha software and may not be suitable for production.
 
-= Dependencies =
+# Dependencies
   * symfony 1.1
 
-= Optional Dependencies =
-  * [wiki:sfSearchPlugin]
+# Features 
+* Highlights strings, XML, X/HTML documents
+* Pluggable tokenizers
+* Extensible marking schemes
+* Full unit test coverage
 
-= Features =
-  * Highlights strings, XML, X/HTML documents
-  * Pluggable tokenizers
-  * Extensible marking schemes
-  * Full unit test coverage
-
-= Installation =
+# Installation
 sfHighlight is currently only available from symfony's subversion repository:
 
-  * Checkout from subversion:
-{{{
-svn co http://svn.symfony-project.com/plugins/sfHighlightPlugin/trunk
-}}}
+* Checkout from subversion:
 
-= Quick Start =
+        svn co http://svn.symfony-project.com/plugins/sfHighlightPlugin/trunk
+
+# Quick Start
 Consider the following example to get started right away:
-{{{
-// creates a highlighter with 2 keywords:
-//  - look for 'foobar' and replace all with 'FOOBAR'
-//  - look for 'baz' and replace all with '[baz]'
-$h = new xfHighlighter;
-$h->addKeyword(new xfHighlightKeyword(new xfHighlightTokenizerSimple(array('foobar')), new xfHighlightMarkerUppercase));
-$h->addKeyword(new xfHighlightKeyword(new xfHighlightTokenizerSimple(array('baz')), new xfHighlightMarkerSprint('[%s]')));
 
-// highlight a DOM document using the highlighter
-$dom = new DOMDocument;
-$dom->loadXml($xml);
-$highlightedDom = $h->highlight(new xfHighlightReaderDOM($dom))->getDocument();
+    // creates a highlighter with 2 keywords:
+    //  - look for 'foobar' and replace all with 'FOOBAR'
+    //  - look for 'baz' and replace all with '[baz]'
+    $h = new xfHighlighter;
+    $h->addKeyword(new xfHighlightKeyword(new xfHighlightTokenizerSimple(array('foobar')), new xfHighlightMarkerUppercase));
+    $h->addKeyword(new xfHighlightKeyword(new xfHighlightTokenizerSimple(array('baz')), new xfHighlightMarkerSprint('[%s]')));
 
-// highlight a XHTML string
-$highlightedXhtml = $h->highlight(new xfHighlightReaderXHTML($xhtml))->getString();
+    // highlight a DOM document using the highlighter
+    $dom = new DOMDocument;
+    $dom->loadXml($xml);
+    $highlightedDom = $h->highlight(new xfHighlightReaderDOM($dom))->getDocument();
 
-// highlight a string with the same configuration
-$string = 'Why don\'t you foobar when you can baz?';
-$highlightedstring = $h->highlight(new xfHighlightReaderString($string))->getString();
-}}}
+    // highlight a XHTML string
+    $highlightedXhtml = $h->highlight(new xfHighlightReaderXHTML($xhtml))->getString();
+
+    // highlight a string with the same configuration
+    $string = 'Why don\'t you foobar when you can baz?';
+    $highlightedstring = $h->highlight(new xfHighlightReaderString($string))->getString();
 
 Please refer to the unit tests until the documentation is complete.
 
-= Improve XML Performance =
-Highlighting XML documents may take longer than expected because PHP makes network calls to fetch the DTD from W3C's server.  You can remove this bottleneck by caching the DTD through your XML catalog.  Refer to tarball {{{ XMLCatalog.tar.gz }}} included in this package for more information.
+# Improve XML Performance
+Highlighting XML documents may take longer than expected because PHP makes network calls to fetch the DTD from W3C's server.  You can remove this bottleneck by caching the DTD through your XML catalog.  Refer to tarball `XMLCatalog.tar.gz` included in this package for more information.
