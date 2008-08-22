@@ -7,23 +7,6 @@
  * file that was distributed with this source code.
  */
 
-// create an xfTokenInterface if unavailable from sfSearch
-// this is neccessary to remove the dependency on sfSearch
-if (!interface_exists('xfTokenInterface', true))
-{
-  /**
-   * Token interface to achieve duck typing
-   *
-   * @package sfHighlight
-   * @subpackage Highlight
-   * @author Carl Vondrick
-   * @see sfSearch's xfTokenInterface
-   */
-  interface xfTokenInterface
-  {
-  }
-}
-
 /**
  * The highlight token.
  *
@@ -31,7 +14,7 @@ if (!interface_exists('xfTokenInterface', true))
  * @subpackage Highlight
  * @author Carl Vondrick
  */
-final class xfHighlightToken implements xfTokenInterface
+final class xfHighlightToken 
 {
   /**
    * The text

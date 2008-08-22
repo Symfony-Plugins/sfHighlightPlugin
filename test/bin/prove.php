@@ -7,7 +7,10 @@
  * file that was distributed with this source code.
  */
 
-require dirname(__FILE__) . '/../../../sfSearchPlugin/test/bin/suite.php';
+require dirname(__FILE__) . '/../bootstrap/unit.php';
+require 'util/sfFinder.class.php';
 
-$t = new lime_search(dirname(__FILE__) . '/../../', new lime_output_color);
-$t->prove();
+$h = new lime_harness(new lime_output_color);
+$h->base_dir = dirname(__FILE__) . '/../..';
+$h->register(sfFinder::type('file')->name('xf*Test.php')->in(glob($h->base_dir . '/test/')));
+$h->run();
